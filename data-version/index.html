@@ -208,6 +208,22 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#escherichia-coli-data-sources-txid3702">Escherichia coli Data Sources (TXID3702)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#2025-06-26">2025-06-26:</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#interaction-data_6">Interaction data:</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#regulatory-data_6">Regulatory data:</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#go-association-data_10">GO association data:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#current-e-coli-network-updated-2025-06-26">Current E. coli Network [Updated 2025-06-26]</a>
+    </li>
+        </ul>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#gene-ontology-hierarchy-data-sources">Gene Ontology Hierarchy Data Sources</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#2023-09-29">2023-09-29:</a>
@@ -255,6 +271,8 @@
     <li class="toctree-l3"><a class="reference internal" href="#2024-08-28_2">2024-08-28:</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#2025-06-19_1">2025-06-19</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2025-06-27">2025-06-27</a>
     </li>
         </ul>
     </li>
@@ -424,7 +442,7 @@
 
 | GO Terms | Annotations (All) | Annotations (Direct) | Annotations (Inferred) |
 | -------- | ----------------- | -------------------- | ---------------------- |
-| 3681     | 78015             | 14384                | 63631                  |
+| 3666     | 77533             | 14287                | 63246                  |
 </code></pre>
 <h2 id="danio-rerio-data-sources-txid7955"><em>Danio rerio</em> Data Sources (TXID7955)</h2>
 <h3 id="2024-03-18_2">2024-03-18:</h3>
@@ -531,7 +549,7 @@
 
 | GO Terms | Annotations (All) | Annotations (Direct) | Annotations (Inferred) |
 | -------- | ----------------- | -------------------- | ---------------------- |
-| 7862     | 202644            | 42850                | 159794                 |
+| 7849     | 202109            | 42723                | 159386                 |
 </code></pre>
 <h2 id="saccharomyces-cerevisiae-data-sources-txid559292"><em>Saccharomyces cerevisiae</em> Data Sources (TXID559292)</h2>
 <h3 id="2024-08-28_1">2024-08-28:</h3>
@@ -569,7 +587,26 @@
 
 | GO Terms | Annotations (All) | Annotations (Direct) | Annotations (Inferred) |
 | -------- | ----------------- | -------------------- | ---------------------- |
-| 8119     | 432297            | 96390                | 335907                 |
+| 8094     | 430415            | 95970                | 334445                 |
+</code></pre>
+<h2 id="escherichia-coli-data-sources-txid3702"><em>Escherichia coli</em> Data Sources (TXID3702)</h2>
+<h3 id="2025-06-26">2025-06-26:</h3>
+<h4 id="interaction-data_6">Interaction data:</h4>
+<p>Added physical interaction data from STRING-DB. Downloaded <code>511145.protein.physical.links.full.v12.0.txt</code>, <code>511145.protein.aliases.v12.0.txt</code>, and <code>511145.protein.info.v12.0.txt</code> from the STRING-DB <a href="https://string-db.org/cgi/download?species=Escherichia+coli+str.+K-12+substr.+MG1655">downloads page</a> and processed into <a href="https://github.com/Reed-CompBio/protein-weaver/blob/main/data/EscherichiaColi/interactome-txid511145-2025_06_24.txt"><code>interactome-txid511145-2025_06_24.txt</code></a> according to <a href="https://github.com/Reed-CompBio/protein-weaver/blob/main/scripts/EscherichiaColi.R"><code>EscherichiaColi.R</code></a>.</p>
+<h4 id="regulatory-data_6">Regulatory data:</h4>
+<ul>
+<li>Downloaded genetic regulatory datasets <code>NetworkRegulatorGene.tsv</code> and <code>GeneProductAllIdentifiersSet.tsv</code> from <a href="https://regulondb.ccg.unam.mx/datasets">RegulonDB</a> and processed into <a href="https://github.com/Reed-CompBio/protein-weaver/blob/main/data/EscherichiaColi/regulatory-txid511145-2025_06_24.txt"><code>regulatory-txid511145-2025_06_24.txt</code></a> according to <a href="https://github.com/Reed-CompBio/protein-weaver/blob/main/scripts/EscherichiaColi.R"><code>EscherichiaColi.R</code></a>.</li>
+</ul>
+<h4 id="go-association-data_10">GO association data:</h4>
+<p>Added GO association data from QuickGO <a href="https://www.ebi.ac.uk/QuickGO/">(Source)</a> and processed into <a href="https://github.com/Reed-CompBio/protein-weaver/blob/main/data/EscherichiaColi/annotations-txid511145-2025_06_26.txt"><code>annotations-txid511145-2025_06_26.txt</code></a> according to <a href="https://github.com/Reed-CompBio/protein-weaver/blob/main/scripts/EscherichiaColi.R"><code>EscherichiaColi.R</code></a> using the <a href="https://www.uniprot.org/id-mapping">UniProt namespace mapper</a>.</p>
+<h3 id="current-e-coli-network-updated-2025-06-26">Current <em>E. coli</em> Network [Updated 2025-06-26]</h3>
+<pre><code>| Nodes (All) | Nodes (PPI-Only) | Nodes (GRN-Only) | Nodes (Shared) | Interactions (ProPro) | Interactions (Reg) |
+| ----------- | ---------------- | ---------------- | -------------- | --------------------- | ------------------ |
+| 3228        | 1219             | 615              | 1394           | 29382                 | 2995               |
+
+| GO Terms | Annotations (All) | Annotations (Direct) | Annotations (Inferred) |
+| -------- | ----------------- | -------------------- | ---------------------- |
+| 5297     | 126909            | 28687                | 98222                  |
 </code></pre>
 <h2 id="gene-ontology-hierarchy-data-sources">Gene Ontology Hierarchy Data Sources</h2>
 <h3 id="2023-09-29">2023-09-29:</h3>
@@ -749,14 +786,14 @@ Looked up species name and got taxon ID.</p>
 <li>Nodes: 8,583</li>
 <li>PPI Edges: 51,384</li>
 <li>Reg Edges: 1,375</li>
-<li>ProGo Edges: 432,297</li>
+<li>ProGo Edges: 430,415</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>Removed NOT qualifiers from <em>C. elegans</em> and <em>S. cerevisiae</em>:<ul>
 <li><em>C. elegans</em> (TXID6239):<ul>
-<li>ProGo Edges: 202,644</li>
+<li>ProGo Edges: 202,109</li>
 </ul>
 </li>
 <li><em>S. cerevisiae</em> (TXID559292):<ul>
@@ -784,6 +821,19 @@ Looked up species name and got taxon ID.</p>
 </li>
 <li><em>S. cerevisiae</em> (TXID559292):<ul>
 <li>Nodes: No changes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2025-06-27">2025-06-27</h3>
+<ul>
+<li>Added <em>E. coli</em> K-12.<ul>
+<li><em>E. coli</em> K-12(TXID3702):<ul>
+<li>Nodes: 3,228</li>
+<li>PPI Edges: 29,382</li>
+<li>Reg Edges: 2,995</li>
+<li>ProGo Edges: 126,909</li>
 </ul>
 </li>
 </ul>

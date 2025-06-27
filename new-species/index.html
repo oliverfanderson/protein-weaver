@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Oliver Anderson, Altaf Barelvi, Anna Ritz" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Guide to Adding New Species to ProteinWeaver - ProteinWeaver Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Guide to Adding New Species to ProteinWeaver";
+        var mkdocs_page_input_path = "new-species.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> ProteinWeaver Docs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../setup/">Setup</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data-version/">Data Log & Version</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../tech-stack/">Tech Stack</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../contributing-guide/">Contributing Guide</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">ProteinWeaver Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Guide to Adding New Species to ProteinWeaver</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="guide-to-adding-new-species-to-proteinweaver">Guide to Adding New Species to ProteinWeaver</h1>
+<p>This is the guide for adding a new species to ProteinWeaver.</p>
+<h2 id="step-1-data-sources">Step 1: Data Sources</h2>
+<p>ProteinWeaver requires three data files for a new species entry:
+1. Protein-Protein Interaction (PPI) Dataset: <code>interactome-txid0000-YYYY_MM_DD.txt</code>
+    - Undirected, physical binding events between two proteins
+    - Potential sources: <a href="https://downloads.thebiogrid.org/File/BioGRID/Latest-Release/BIOGRID-ORGANISM-LATEST.tab3.zip">BioGRID</a> or <a href="https://string-db.org/cgi/download?">STRING-DB</a>
+2. Gene Regulatory Network (GRN) Dataset: <code>regulatory-txid0000-YYYY_MM_DD.txt</code>
+    - Directed transcription factor (TF) to target regulatory events
+    - Look for species-specific sources. <a href="https://tflink.net/download/">TFLink</a> also has a few model organisms available.
+3. Gene Ontology (GO) Association Dataset: <code>annotations-txid0000-YYYY_MM_DD.txt</code>
+    - Protein/Gene to GO term relationships
+    - The best practice is to download the entire dataset for the specific taxon ID from <a href="https://www.ebi.ac.uk/QuickGO/annotations?taxonId=000000&amp;taxonUsage=descendants&amp;geneProductSubset=Swiss-Prot&amp;geneProductType=protein">QuickGO</a>.</p>
+<ul>
+<li>
+<p>Once you have gathered your data, create a new folder in the <code>ProteinWeaver/data/</code> directory with your full species name. Model it after the other folders that exist.</p>
+</li>
+<li>
+<p>Bring your raw datasets into this folder and create a data cleaning script in this directory with the same name as your directory. Use whatever language feels comfortable, R or Python are great for data cleaning.</p>
+</li>
+</ul>
+<p><strong>NOTES:</strong>
+- There may be multiple taxon IDs for a given species (strains), you will need to determine which taxon ID will provide the most robust data. Ensure that there is a good source of PPI data, GRN data and GO association data for the given taxon ID.
+- The identifiers from the PPI and GRN datasets may be different. You will need to ensure that there is at least one common ID between all three datasets. A good rule of thumb is to have a column with the UniProtKB/Swiss-Prot ID for each node. A namespace mapper is available <a href="https://www.uniprot.org/id-mapping">here</a>. This may result in some interactions being lost, but we need to ensure that there is a common ID convention between all nodes so that they can merge together properly during import to Neo4j. It is recommended to drop all rows that do not have the common identifier in both columns.
+- Ensure that the primary ID for the species provides an outlink on ProteinWeaver. For example, <em>D. melanogaster</em> uses FlyBase IDs and provides links to the FlyBase database while <em>S. cerevisiae</em> uses UniProt IDs to provide the outlink. When possible, prioritize outlinks to species-specific databases.</p>
+<h2 id="step-2-data-cleaning">Step 2: Data Cleaning</h2>
+<ol>
+<li>Prepare the PPI data.<ul>
+<li>If you had to convert to UniProt IDs, keep the original ID columns and the new UniProt IDs in the final dataset.</li>
+<li>If your data is from STRING, filter it similar to the <code>ArabidopsisThaliana.R</code> script to ensure that all entries are either textmined, database or experimental evidence. Add the evidence as a column like in the example script.</li>
+<li>You may also need to add a name and UniProt ID column from STRING. They provide datasets for each species on their downloads pages.</li>
+<li>Add the source for example "string-db" as a column.</li>
+<li>Keep alternate names since we can import those into ProteinWeaver.</li>
+<li>Provide a link, if possible, for each interaction to STRING or Pubmed.</li>
+<li>Look at other scripts data cleaning scripts from previous species to validate your work.</li>
+</ul>
+</li>
+<li>Prepare the GRN data.<ul>
+<li>Ensure that there is an ID for every TF and target that matches the PPI IDs or vice versa. We need to have an ID that the nodes can merge on during import.</li>
+<li>Add in a source column, e.g., "tf-link"</li>
+</ul>
+</li>
+<li>Prepare the GO assocation data.<ul>
+<li>From the raw file, only select the protein ID, the GO term ID, and the qualifer ("involved_in") columns</li>
+<li>Import the GO data into RemoveNotQualifers.R and add new lines to remove the "NOT|" qualifiers from the new species' GO association data.</li>
+</ul>
+</li>
+</ol>
+<h2 id="step-3-data-import">Step 3: Data Import</h2>
+<ol>
+<li>Copy the final three datasets into the <code>ProteinWeaver/Import</code> directory.</li>
+<li>Copy the final three datasets into your local <code>neo4j/import</code> directory to allow import into dockerized Neo4j.</li>
+<li>Add import commands to scripts:<ul>
+<li>Create <code>DataImportTXIDXXXX.cypher</code> script</li>
+<li><code>AutomaticDataImport.sh</code></li>
+<li><code>AncestralEdges.cypher</code><ul>
+<li>Has a line that removes self-loop edges and removes GO terms with no edges.</li>
+</ul>
+</li>
+<li><code>RemoveNoEdgeNodes.cypher</code><ul>
+<li>Add line for new species to remove nodes with no edges.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Import your data manually or automatically with the <code>AutomaticDataImport.sh</code> script.</li>
+</ol>
+<p><strong>PRO-TIP:</strong>
+- If you add all the commands to the cypher scripts first, then you can run <code>AutomaticDataImport.sh</code> and it should import your new species for you!</p>
+<h2 id="step-4-add-to-proteinweaver-interface">Step 4: Add to ProteinWeaver Interface</h2>
+<ol>
+<li>Query.jsx<ol>
+<li>Add example queries 1,2,3</li>
+<li>Edit Autocomplete options for proteins<ol>
+<li>Maybe need to check Parser.jsx</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>EdgeTab.jsx<ol>
+<li>Ensure that source and pubmed are rendering properly</li>
+</ol>
+</li>
+<li>GraphSummary.jsx<ol>
+<li>Ensure source link is displayed properly</li>
+</ol>
+</li>
+<li>MotifTab.jsx<ol>
+<li>Calculate constants and add them for new txid<ul>
+<li><code>GetMotifCounts.txt</code> provides the necessary commands to calculate the constants</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>NodeTab.jsx<ol>
+<li>Add database link</li>
+</ol>
+</li>
+<li>SearchBar.jsx<ol>
+<li>Add spName and <code>&lt;option&gt;</code>to the search bar</li>
+</ol>
+</li>
+</ol>
+<h2 id="step-5-add-entry-to-dataversion-page">Step 5: Add Entry to Data/Version Page</h2>
+<ol>
+<li>Follow the template from another species to report a new addition to PW.<ul>
+<li><code>SummarizeNetworks.txt</code> provides examples of necessary commands to report the new species entry.</li>
+</ul>
+</li>
+<li>Push docs to GitHub with <code>mkdocs gh-deploy</code> in docs directory from the ReedCompBio github.</li>
+</ol>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
