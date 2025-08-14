@@ -4,13 +4,23 @@
 # Open Docker Desktop before running this script
 
 # Define paths that match your personal environment
-CLIENT=$HOME/Desktop/GitHub_Repos/protein-weaver/client
-SERVER=$HOME/Desktop/GitHub_Repos/protein-weaver/server
+CLIENT=$HOME/Code/GitHub/protein-weaver/client
+SERVER=$HOME/Code/GitHub/protein-weaver/server
+PYTHON_API=$HOME/Code/GitHub/protein-weaver/python_api
 
-# Check if the Docker container already exists
+
+# Check if the Docker container is running or already exists
 if [ "$(docker ps -aq -f name=proteinweaver)" ]; then
-    echo "Container 'proteinweaver' already exists. Starting the container..."
-    docker start proteinweaver
+    if [ "$(docker ps -q -f name=proteinweaver)" ]; then
+        echo "Container 'proteinweaver' is already running."
+    else
+        echo "Container 'proteinweaver' exists but is not running. Starting the container..."
+        docker start proteinweaver
+        # Wait for Neo4j to start (adjust sleep time as needed)
+		echo "Waiting for Neo4j to start..."
+		sleep 120
+		echo "Neo4j started."
+    fi
 else
     echo "Container 'proteinweaver' does not exist. Creating and starting a new container..."
     docker run \
@@ -28,12 +38,12 @@ else
         -e NEO4J_PLUGINS='["graph-data-science"]' \
         -e NEO4JLABS_PLUGINS=\[\"apoc\"\] \
         neo4j:latest
+    
+    # Wait for Neo4j to start (adjust sleep time as needed)
+    echo "Waiting for Neo4j to start..."
+    sleep 120
+    echo "Neo4j started."
 fi
-
-# Wait for Neo4j to start (adjust sleep time as needed)
-echo "Waiting for Neo4j to start..."
-sleep 120
-echo "Neo4j started."
 
 # Execute Cypher query within Neo4j database
 echo "Calling graph projection"
@@ -44,6 +54,12 @@ echo "Starting server..."
 cd $SERVER
 npm start &
 echo "Server started."
+
+# Start Python server
+echo "Starting Python server..."
+cd $PYTHON_API
+python app.py &
+echo "Python server started."
 
 # Start client
 echo "Starting client..."
